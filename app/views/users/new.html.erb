@@ -1,2 +1,38 @@
-<h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> Users </h1>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+            <ul>
+            <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <%= form_with model: @user do |form| %>
+        <div>
+            <%= form.label :name, "Enter your username" %>
+            <%= form.text_field :name, value: @user.name || "Default Melvoid Name" %>
+        </div>
+        <div>
+            <%= form.label :email %>
+            <%= form.email_field :email, placeholder: "example@example.com" %>
+        </div>
+        <div>
+            <%= form.label :encrypted_password %>
+            <%= form.password_field :encrypted_password %>
+        </div>
+        <%= form.submit %>
+    <% end %>
+</body>
+</html>

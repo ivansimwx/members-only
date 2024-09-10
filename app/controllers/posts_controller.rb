@@ -6,14 +6,20 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(user_params)
+    @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      redirect_to posts_path, notice: 'Post was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def index
+    @posts = Post.all # Fetch all posts from the database
+  end
+
+  private
+  def post_params
+    params.require(:post).permit(:title, :body)
   end
 end
